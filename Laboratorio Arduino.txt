@@ -1,0 +1,97 @@
+const int ledVerde = 11; 
+const int ledRojo = 12;     
+const int ledAmarillo = 13;    
+
+
+bool isBlinking = false;
+
+void setup() {
+  
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
+  pinMode(ledAmarillo, OUTPUT);
+
+  
+  Serial.begin(9600);
+  Serial.println("Control de luces. Usa numero del 1 al 9.");
+}
+
+void loop() {
+
+  if (Serial.available() > 0) {
+    
+    char input = Serial.read();
+
+ 
+    switch (input) {
+      case '1': 
+        digitalWrite(ledVerde, HIGH);
+        Serial.println("Luz verde encendida.");
+        break;
+      
+      case '2': 
+        digitalWrite(ledVerde, LOW);
+        Serial.println("Luz verde apagada.");
+        break;
+
+      case '3': 
+        digitalWrite(ledRojo, HIGH);
+        Serial.println("Luz roja encendida.");
+        break;
+
+      case '4': 
+        digitalWrite(ledRojo, LOW);
+        Serial.println("Luz roja apagada.");
+        break;
+
+      case '5': 
+        digitalWrite(ledAmarillo, HIGH);
+        Serial.println("Luz amarilla encendida.");
+        break;
+
+      case '6': 
+        digitalWrite(ledAmarillo, LOW);
+        Serial.println("Luz amarilla apagada.");
+        break;
+
+      case '7': 
+        digitalWrite(ledVerde, HIGH);
+        digitalWrite(ledRojo, HIGH);
+        digitalWrite(ledAmarillo, HIGH);
+        Serial.println("Todas las luces encendidas.");
+        break;
+
+      case '8': 
+        digitalWrite(ledVerde, LOW);
+        digitalWrite(ledRojo, LOW);
+        digitalWrite(ledAmarillo, LOW);
+        Serial.println("Todas las luces apagadas.");
+        break;
+
+      case '9': 
+        isBlinking = !isBlinking;
+        if (isBlinking) {
+          Serial.println("Modo intermitente activado.");
+        } else {
+          Serial.println("Modo intermitente desactivado.");
+        }
+        break;
+
+      default:
+        Serial.println("Opcion no disponible.");
+        break;
+    }
+  }
+
+
+  if (isBlinking) {
+    digitalWrite(ledVerde, HIGH);
+    digitalWrite(ledRojo, HIGH);
+    digitalWrite(ledAmarillo, HIGH);
+    delay(500);
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledRojo, LOW);
+    digitalWrite(ledAmarillo, LOW);
+    delay(500);
+  }
+}
